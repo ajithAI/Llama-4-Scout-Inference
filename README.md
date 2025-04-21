@@ -30,6 +30,7 @@ git lfs install
 ```
 
 ### 4. Clone the Repository : 
+```
 mkdir /home/user/TRT_LLM_0.20 && cd /home/user/TRT_LLM_0.20 
 git clone https://github.com/NVIDIA/TensorRT-LLM.git && cd TensorRT-LLM
 git submodule update --init --recursive
