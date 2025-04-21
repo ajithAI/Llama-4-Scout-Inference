@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/0e587ec5-ca55-4cf7-a735-8b93e94d1fa9)# Llama-4-Scout-Inference
+# Llama-4-Scout-Inference
 
 ### 1. Prerequisites : 
 - Install Docker & Nvidia Docker. Follow [Link](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) </br>
