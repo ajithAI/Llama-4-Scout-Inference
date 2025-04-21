@@ -1,4 +1,4 @@
-# Llama-4-Scout-Inference
+![image](https://github.com/user-attachments/assets/0e587ec5-ca55-4cf7-a735-8b93e94d1fa9)# Llama-4-Scout-Inference
 
 ### 1. Prerequisites : 
 - Install Docker & Nvidia Docker. Follow [Link](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) </br>
@@ -64,24 +64,24 @@ huggingface-cli download meta-llama/Llama-4-Scout-17B-16E-Instruct --local-dir L
 
 ### 7. Run Quantization & Create Checkpoint :
 ```
-export DIR=/home/user/LLaMA3.1_Inference && cd $DIR && mkdir $DIR/Checkpoints
+export DIR=/home/user/TRT_LLM_0.20/Llama4_Scout_Inference && mkdir $DIR
 ```
 ```
-cd TensorRT-LLM/examples
+cd /home/user/TRT_LLM_0.20/TensorRT-LLM/examples
 python3 quantization/quantize.py --model_dir /home/user/Llama-4-Scout-17B-16E-Instruct --dtype float16 \
       --qformat fp8 --kv_cache_dtype fp8 --calib_size 512 --tp_size 8 \
-      --output_dir $DIR/Checkpoints/Llama-4-Scout-17B-16E-Instruct_Checkpoint_FP8_8xGPU_CUDA_12.6_TRT_LLM_0.13
+      --output_dir /home/user/TRT_LLM_0.20/Llama4_Scout_Inference/CHECKPOINT
 ```
 
 ### 8. Create TRT Engine :
 
 ```
-export DIR=/home/user/LLaMA3.1_Inference && cd $DIR && mkdir $DIR/TRT_Engines
+export DIR=/home/user/TRT_LLM_0.20/Llama4_Scout_Inference && cd $DIR && mkdir $DIR/TRT_Engines
 ```
 ```
-trtllm-build --checkpoint_dir $DIR/Checkpoints/LLaMA3.1_70B_Checkpoint_FP8_8xGPU_CUDA_12.6_TRT_LLM_0.13 \
-             --output_dir $DIR/TRT_Engines/LLaMA3.1_70B_TRT_Engine_FP8_8xGPU_MaxBatch_1024_MaxSeqLen_4096_CUDA_12.6_TRT_LLM_0.13_TP_8 \
-             --gemm_plugin auto --use_fp8_context_fmha enable --workers 8 --max_batch_size 1024 --max_input_len 2048 --max_seq_len 4096 
+trtllm-build --checkpoint_dir $DIR/CHECKPOINT --output_dir $DIR/TRT_Engines/LLlama4_Scout_TRT_Engine_FP8_TP8_MaxBatch_8192_MaxSeqLen_4096 \
+             --gemm_plugin auto --use_fp8_context_fmha enable --use_fused_mlp enable --use_paged_context_fmha enable \
+             --workers 8 --max_batch_size 8192 --max_seq_len 4096
 ```
 
 ### 9. To Run Benchmark inside Docker : 
